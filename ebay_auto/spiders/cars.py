@@ -61,7 +61,7 @@ class CarsSpider(scrapy.Spider):
             item['pics'] = self.imagere.findall(response.css('div.ad-image img').xpath('@src').extract_first())
 
         try:
-            request = scrapy.Request(f"https://www.ebay-kleinanzeigen.de/s-vac-inc-get.json?adId={item['Anzeigennummer']}&userId=25763233", callback=self.parse_views)
+            request = scrapy.Request("https://www.ebay-kleinanzeigen.de/s-vac-inc-get.json?adId={}&userId=25763233".format(item['Anzeigennummer']), callback=self.parse_views)
         except KeyError:
             item['views'] = 'nan'
             return item
@@ -73,8 +73,7 @@ class CarsSpider(scrapy.Spider):
 
     def parse_views(self, response):
         item = response.meta['item']
-
-        item['views'] = json.loads(response.body)['numVisits']
+        item['views'] = json.loads(response.body.decode("utf-8"))['numVisits']
 
         yield item
 

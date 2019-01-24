@@ -96,7 +96,7 @@ DOWNLOAD_DELAY = 0
 
 # pip3 install scrapy-rotating-proxies
 # https://www.proxy-list.download/HTTP
-ROTATING_PROXY_LIST_PATH = "/home/daniil/code/scraping/ebay_auto/proxies.txt"
+ROTATING_PROXY_LIST_PATH = "/home/nvidia/code/ebay-auto/proxies.txt"
 
 
 CONCURRENT_REQUESTS = 30
