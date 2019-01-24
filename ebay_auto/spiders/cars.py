@@ -73,8 +73,7 @@ class CarsSpider(scrapy.Spider):
 
     def parse_views(self, response):
         item = response.meta['item']
-        print('----------------->', response.body)
-        item['views'] = json.loads(str(response.body))['numVisits']
+        item['views'] = json.loads(response.body.decode("utf-8"))['numVisits']
 
         yield item
 
