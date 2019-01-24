@@ -52,9 +52,11 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'ebay_auto.middlewares.EbayAutoDownloaderMiddleware': 543,
-#}
+# 'ebay_auto.middlewares.EbayAutoDownloaderMiddleware': 543,
+DOWNLOADER_MIDDLEWARES = {
+   'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
+   'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -90,4 +92,12 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 FEED_EXPORT_ENCODING = 'utf-8'
-DOWNLOAD_DELAY = 0.7
+DOWNLOAD_DELAY = 0
+
+# pip3 install scrapy-rotating-proxies
+# https://www.proxy-list.download/HTTP
+ROTATING_PROXY_LIST_PATH = "/home/daniil/code/scraping/ebay_auto/proxies.txt"
+
+
+CONCURRENT_REQUESTS = 30
+CONCURRENT_REQUESTS_PER_DOMAIN = 30
