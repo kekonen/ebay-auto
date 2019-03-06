@@ -54,8 +54,9 @@ ROBOTSTXT_OBEY = True
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 # 'ebay_auto.middlewares.EbayAutoDownloaderMiddleware': 543,
 DOWNLOADER_MIDDLEWARES = {
-   'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
-   'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
+   'rotating_proxies.middlewares.RotatingProxyMiddleware': 543,
+   'rotating_proxies.middlewares.BanDetectionMiddleware': 543,
+   'ebay_auto.middlewares.SkipURL': 0,
 }
 
 # Enable or disable extensions
@@ -66,9 +67,10 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
+ITEM_PIPELINES = {
 #    'ebay_auto.pipelines.EbayAutoPipeline': 300,
-#}
+    'ebay_auto.pipelines.SkipURL': 0,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -96,7 +98,7 @@ DOWNLOAD_DELAY = 0
 
 # pip3 install scrapy-rotating-proxies
 # https://www.proxy-list.download/HTTP
-ROTATING_PROXY_LIST_PATH = "/home/nvidia/code/ebay-auto/proxies.txt"
+ROTATING_PROXY_LIST_PATH = "proxies.txt"
 
 
 CONCURRENT_REQUESTS = 30

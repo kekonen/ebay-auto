@@ -8,7 +8,7 @@ import re
 class CarsSpider(scrapy.Spider):
     name = 'cars'
     allowed_domains = ['ebay-kleinanzeigen.de']
-    start_urls = ['https://www.ebay-kleinanzeigen.de/s-autos/c216']
+    start_urls = ['https://www.ebay-kleinanzeigen.de/s-immobilien/c195'] #['https://www.ebay-kleinanzeigen.de/s-autos/c216']
     imagere = re.compile(r"z\/(.+)\/\$\_\d{2}\.JPG")
     verkaufre = re.compile(r"verkauf|ankauf", re.I)
 

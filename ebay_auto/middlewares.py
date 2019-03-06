@@ -4,6 +4,9 @@
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+from tinydb import TinyDB, Query
+from scrapy import log
+from scrapy.exceptions import IgnoreRequest
 
 from scrapy import signals
 
@@ -101,3 +104,16 @@ class EbayAutoDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+
+class SkipURL(object):
+    def __init__(self):
+        self.db = TinyDB('./urls.json')
+
+    def process_request(self, request, spider):
+        url = request.url
+        has = len(self.db.search(Query().url == url)) > 0
+        if has:
+            log.msg('ignore duplicated url: <%s>'%url, level=log.DEBUG)
+            raise IgnoreRequest()
