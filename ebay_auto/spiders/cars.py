@@ -22,7 +22,6 @@ class CarsSpider(scrapy.Spider):
             if not self.verkaufre.search(ad.extract()):
                 yield response.follow(ad, callback=self.parse_ad)
         for page in response.css('a.pagination-page')[:2]:
-            self.logger.info(f'Doing page ========================>')
             yield response.follow(page, callback=self.parse)
 
     def parse_ad(self, response):
