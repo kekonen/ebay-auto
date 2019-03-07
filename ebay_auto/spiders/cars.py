@@ -21,7 +21,7 @@ class CarsSpider(scrapy.Spider):
         for ad in response.css('h2.text-module-begin a'):
             if not self.verkaufre.search(ad.extract()):
                 yield response.follow(ad, callback=self.parse_ad)
-        for page in response.css('a.pagination-page')[:2]:
+        for page in response.css('a.pagination-page'):
             yield response.follow(page, callback=self.parse)
 
     def parse_ad(self, response):
