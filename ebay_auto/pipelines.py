@@ -22,4 +22,5 @@ class SkipURL(object):
     def process_item(self, item, spider):
         url = item['url']
         self.db.insert({'url': url})
+        spider.added += 1
         return item
