@@ -115,5 +115,6 @@ class SkipURL(object):
         url = request.url
         has = len(self.db.search(Query().url == url)) > 0
         if has:
+            spider.skipped += 1
             log.msg('ignore duplicated url: <%s>'%url, level=log.DEBUG)
             raise IgnoreRequest()

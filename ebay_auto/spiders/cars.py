@@ -3,12 +3,17 @@ import scrapy
 import json
 import datetime as dt
 import re
+from scrapy import signals
 
 
 class CarsSpider(scrapy.Spider):
-    name = 'cars'
+    name    = 'cars'
+    added   = 0
+    skipped = 0
+
     allowed_domains = ['ebay-kleinanzeigen.de']
     start_urls = ['https://www.ebay-kleinanzeigen.de/s-immobilien/c195'] #['https://www.ebay-kleinanzeigen.de/s-autos/c216']
+    
     imagere = re.compile(r"z\/(.+)\/\$\_\d{2}\.JPG")
     verkaufre = re.compile(r"verkauf|ankauf", re.I)
 
@@ -16,7 +21,8 @@ class CarsSpider(scrapy.Spider):
         for ad in response.css('h2.text-module-begin a'):
             if not self.verkaufre.search(ad.extract()):
                 yield response.follow(ad, callback=self.parse_ad)
-        for page in response.css('a.pagination-page'):
+        for page in response.css('a.pagination-page')[:2]:
+            self.logger.info(f'Doing page ========================>')
             yield response.follow(page, callback=self.parse)
 
     def parse_ad(self, response):
@@ -76,4 +82,6 @@ class CarsSpider(scrapy.Spider):
         item['views'] = json.loads(response.body.decode("utf-8"))['numVisits']
 
         yield item
-
+    
+    def spider_closed(self, spider):
+        self.logger.info(f'\n  SUMMARY\n----------\n Added: {spider.added}\n Skipped: {spider.skipped}\n----------')
